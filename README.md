@@ -28,6 +28,7 @@ Automation Script for Docker Compose Service.
 │           ├── README.md
 ├── storage
 │   ├── service-network
+├── .gitignore
 ├── LICENSE
 ├── README.md
 └── craftman
