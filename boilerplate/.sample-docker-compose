@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  {SERVICE}:
+    tty: true
+    stdin_open: true
+    container_name: '{IP_SERVICE}'
+    networks:
+      development-network:
+        ipv4_address: '{IP}'
+    ports:
+      - '{PORT}:80'
+    image: '<PLEASE_ADD_TO_YOUR_NEED>'
+    volumes:
+      - '/home/${LOCAL_MACHINE_USERNAME}/<PLEASE_ADD_TO_YOUR_NEED>:/var/www/site/'
+
+networks:
+  development-network:
+    external:
+      name: 'development-network'
