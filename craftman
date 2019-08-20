@@ -133,12 +133,12 @@ class Service():
         print (' Service\n\n' +
                ' Usage: ./craftman service --ip=<192.168.x.x> --port=<80> --service=<service-name> --category=<category-name>\n\n' +
                ' Options:\n\n' +
-               ' -h  -help      --help      Display help.\n' +
-               ' -i  -ip        --ip        Set IP Address.\n' +
-               ' -p  -port      --port      Set Port.\n' +
-               ' -s  -service   --service   Set Service Name.\n' +
-               ' -c  -category  --category  Set Category.\n' +
-               ' -V  -verbose   --verbose   Run script in verbose mode. Print out each step of execution.\n')
+               ' --help      Display help.\n' +
+               ' --ip        Set IP Address.\n' +
+               ' --port      Set Port.\n' +
+               ' --service   Set Service Name.\n' +
+               ' --category  Set Category.\n' +
+               ' --verbose   Run script in verbose mode. Print out each step of execution.\n')
 
     def storage_file(self):
         return open('./storage/service-network', 'r+a')
