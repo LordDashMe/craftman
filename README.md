@@ -1,6 +1,6 @@
 # Craftman
 
-Automation Script for Docker Compose Service.
+Automation Script and Simple Folder Structure for Docker Compose Service.
 
 ## Requirement(s)
 
