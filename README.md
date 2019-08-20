@@ -8,6 +8,10 @@ Automation Script for Docker Compose Service.
 
 - Python 2.7.x or higher.
 
+## Install
+
+- Download the latest release here: [Latest Release of Craftman](https://github.com/LordDashMe/craftman/releases)
+
 ## Folder Structure
 
 ```bash
