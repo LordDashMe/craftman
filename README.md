@@ -25,7 +25,7 @@ Automation Script for Docker Compose Service.
 ├── storage
 │   ├── service-network
 ├── README.md
-├── craftman
+└── craftman
 ```
 
 ## Usage
