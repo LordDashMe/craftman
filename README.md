@@ -2,7 +2,7 @@
 
 Automation Script for Docker Compose Service.
 
-## Requirements
+## Requirement(s)
 
 - Docker version 17.x.x or higher.
 
@@ -84,7 +84,7 @@ Automation Script for Docker Compose Service.
 
   - If you want to deeply understand how environment work with the docker compose you can check this reference documentation: [Environment variable in Compose | Docker Documentation](https://docs.docker.com/compose/environment-variables/)
 
-## Reference Tools
+## Reference Tool(s)
 
 - [Subnet Calculator](https://www.calculator.net/ip-subnet-calculator.html?cclass=any&csubnet=8&cip=116.0.0.0&ctype=ipv4&printit=0&x=49&y=21)
 
