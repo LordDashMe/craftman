@@ -26,7 +26,7 @@ class CraftMan():
 
         # ['./craftman', 'service']
         # Remove the arguments that will not be useful
-        # for the functionsWW.
+        # for the functions.
         args.remove(args[0])
         args.remove(action_type)
 
