@@ -55,6 +55,8 @@ If you want to dockerize your local development, this will be your friend to hel
 #### Network Specification
 
 - When using the provided development docker network setup, the specification or details are listed below:
+  
+  - Docker Network Name: development-network
 
   - Network Class: A
 
