@@ -46,7 +46,7 @@ If you want to dockerize your local development, this will be your friend to hel
 
 ### Setup Network Development
 
-- To setup the development docker network provided by craftman automation script, use the command below:
+- To setup the development docker network provided by craftman, use the command below:
 
   ```text
   ./craftman network
