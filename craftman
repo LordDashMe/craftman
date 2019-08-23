@@ -127,7 +127,7 @@ class Service():
                 '\033[1;32m[SUCCESS]\033[0;37m', 
                 'New entry has been created! \n\n' + 
                 ' Path: cd ' + directory + '\n\n' +
-                ' \033[1;31mPlease make sure to double check\n' + 
+                ' \033[1;31m Please make sure to double check\n' + 
                 '  and modify the docker-compose.yml generated on the service directory and\n' + 
                 '  provide .env file for the environment setup, this requires by\n' + 
                 '  docker-compose.yml before executing the "docker-compose up" command.\033[0;37m', 
