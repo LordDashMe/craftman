@@ -7,20 +7,18 @@ import getopt
 import shutil
 import subprocess
 
-CRAFTMAN_VERSION='0.0.2'
+CRAFTMAN_VERSION = '0.0.3'
+
 
 class CraftMan():
 
     def __init__(self, author, service, network, environment):
-        author.show()
-        args = sys.argv[1:]
 
-        if len(args) < 1:
-            self.show_help()
-            return
+        author.show_signature_message()
 
-        action_type = args[0]
-        args.remove(action_type)
+        action_type = None if len(sys.argv) < 2 else sys.argv[1]
+
+        args = sys.argv[2:]
 
         if action_type == 'service':
             service.process(args)
@@ -29,11 +27,12 @@ class CraftMan():
         elif action_type == 'environment':
             environment.process(args)
         else:
-            self.show_help()
-            
-    def show_help(self):
+            self.show_help_message()
+
+    def show_help_message(self):
+
         print (' Usage: ./craftman [function...]\n\n' +
-               ' Functions:\n\n' +
+               ' Bundled Functions:\n\n' +
                '  service      Use to setup service for docker compose projects.\n' +
                '  network      Use to setup default development environment for docker.\n' +
                '  environment  Use to setup environment for the docker compose file.\n' +
@@ -42,11 +41,12 @@ class CraftMan():
 
 class Author():
 
-    def show(self):
+    def show_signature_message(self):
+
         print ('\033[1;35m\n' +
                ' Craftman Automation Script for Docker Compose Service.\n' +
-               ' Version: ' + CRAFTMAN_VERSION + '\n' + 
-               ' Author: Dash Reyes <reyesjoshuaclifford@gmail.com>\n' + 
+               ' Version: ' + CRAFTMAN_VERSION + '\n' +
+               ' Author: Dash Reyes <reyesjoshuaclifford@gmail.com>\n' +
                ' URL: https://lorddashme.github.io/\n' +
                ' Executable File: ./craftman\n' +
                ' Powered By: Python' +
@@ -55,30 +55,15 @@ class Author():
 
 class Service():
 
-    ip = None;
-    port = None;
-    service = None;
-    category = None;
+    ip = None
+    port = None
+    service = None
+    category = None
 
     def process(self, args):
+
         try:
-            (options, arguments) = getopt.getopt(args, 
-                                                 'i:p:s:c:', 
-                                                 ['ip=', 'port=', 'service=', 'category=', 'help'])
-
-            for (option, argument) in options:
-                if option in ('--help'):
-                    self.show_help_message()
-                    return
-                elif option in ('-i', '--ip'):
-                    self.ip = argument
-                elif option in ('-p', '--port'):
-                    self.port = argument
-                elif option in ('-s', '--service'):
-                    self.service = argument
-                elif option in ('-c', '--category'):
-                    self.category = argument
-
+            self.process_arguments(args)
         except Exception as a:
             self.show_help_message()
             return
@@ -89,9 +74,8 @@ class Service():
 
         if (self.ip is None or self.port is None or self.service is None or self.category is None):
             storage_file.close()
-            self.show_default_message('\033[1;33m[WARNING]\033[0;37m', 
-                                      'No action detected!', 
-                                      last_entry)
+            self.show_default_message(
+                '\033[1;33m[WARNING]\033[0;37m', 'No action detected!', last_entry)
             return
 
         ip_port = ('(IP_ADDRESS: ' + self.ip + ' | PORT: ' + self.port + ')')
@@ -99,44 +83,62 @@ class Service():
         for entry in entries:
             if re.search(ip_port, entry):
                 storage_file.close()
-                self.show_default_message('\033[1;31m[FAILED]\033[0;37m', 
-                                          'The IP and PORT are already used!', 
-                                          last_entry)
+                self.show_default_message(
+                    '\033[1;31m[FAILED]\033[0;37m', 'The IP and PORT are already used!', last_entry)
                 return
-        
-        if (self.ip is not None and self.port is not None and 
-            self.service is not None and self.category is not None):
 
-            new_entry = ('IP_ADDRESS: ' + self.ip + 
-                         ' | PORT: ' + self.port + 
-                         ' | SERVICE: ' + self.service + 
+        if (self.ip is not None and self.port is not None and
+                self.service is not None and self.category is not None):
+
+            new_entry = ('IP_ADDRESS: ' + self.ip +
+                         ' | PORT: ' + self.port +
+                         ' | SERVICE: ' + self.service +
                          ' | CATEGORY: ' + self.category + '\n')
-            
+
             storage_file.write(new_entry)
             storage_file.close()
-            
-            directory = os.path.join('service', 
-                                     self.category, 
+
+            directory = os.path.join('service',
+                                     self.category,
                                      self.ip + '_' + self.service) + os.sep
-            
+
             if not os.path.exists(directory):
                 os.makedirs(directory)
-            
+
             self.copy_boilerplate_template(directory)
             self.show_default_message(
-                '\033[1;32m[SUCCESS]\033[0;37m', 
-                'New entry has been created! \n\n' + 
+                '\033[1;32m[SUCCESS]\033[0;37m',
+                'New entry has been created! \n\n' +
                 ' Path: cd ' + directory + '\n\n' +
-                ' \033[1;31m Please make sure to double check\n' + 
-                '  and modify the docker-compose.yml generated on the service directory and\n' + 
-                '  provide .env file for the environment setup, this requires by\n' + 
-                '  docker-compose.yml before executing the "docker-compose up" command.\033[0;37m', 
+                ' \033[1;31m Please make sure to double check\n' +
+                '  and modify the docker-compose.yml generated on the service directory and\n' +
+                '  provide .env file for the environment setup, this requires by\n' +
+                '  docker-compose.yml before executing the "docker-compose up" command.\033[0;37m',
                 new_entry)
 
+    def process_arguments(self, args):
+
+        (options, arguments) = getopt.getopt(args, 'i:p:s:c:',
+                                             ['ip=', 'port=', 'service=', 'category=', 'help'])
+
+        for (option, argument) in options:
+            if option in ('--help'):
+                self.show_help_message()
+                return
+            elif option in ('-i', '--ip'):
+                self.ip = argument
+            elif option in ('-p', '--port'):
+                self.port = argument
+            elif option in ('-s', '--service'):
+                self.service = argument
+            elif option in ('-c', '--category'):
+                self.category = argument
+
     def show_help_message(self):
+
         print (' Service\n\n' +
-               ' Usage: ./craftman service' + 
-               ' --ip=<192.168.x.x> --port=<80>' + 
+               ' Usage: ./craftman service' +
+               ' --ip=<192.168.x.x> --port=<80>' +
                ' --service=<service-name> --category=<category-name>\n\n' +
                ' Options:\n\n' +
                ' --help      Display help.\n' +
@@ -147,17 +149,23 @@ class Service():
                ' --verbose   Run script in verbose mode. Print out each step of execution.\n')
 
     def storage_file(self):
+
         return open('./storage/service-network', 'r+a')
 
     def copy_boilerplate_template(self, directory):
+
         docker_compose_path = os.path.join(directory, 'docker-compose.yml')
+
         shutil.copy(
             os.path.join('boilerplate', '.sample-docker-compose'), docker_compose_path)
+
         shutil.copy(
             os.path.join('boilerplate', '.sample-README'), os.path.join(directory, 'README.md'))
+
         self.replace_docker_compose_content(docker_compose_path)
 
     def replace_docker_compose_content(self, path):
+
         docker_compose = open(path, 'r')
         docker_compose_content = (docker_compose.read()
                                   .replace('{SERVICE}', self.service)
@@ -165,44 +173,52 @@ class Service():
                                   .replace('{IP}', self.ip)
                                   .replace('{PORT}', self.port))
         docker_compose.close()
+
         docker_compose = open(path, 'w')
         docker_compose.write(docker_compose_content)
         docker_compose.close()
 
-    def show_default_message(self, level, additional_message, last_entry):
-        print (' ' + level + '\n\n' + 
+    def show_default_message(self, level, additional_message, network_entry):
+
+        print (' ' + level + '\n\n' +
                ' \033[1;37m' + additional_message + '\033[0;37m\n\n' +
-               ' The last network entry is: \033[1;36m' + last_entry + '\033[0;37m'
-               ' To check the current list open file: "storage/service-network"\n')   
+               ' The last network entry is: \033[1;36m' +
+               network_entry + '\033[0;37m'
+               ' To check the current list open file: "storage/service-network"\n')
 
 
 class Network():
 
     def process(self, args):
+
         try:
-            subprocess.check_output(['docker', '-v'], stderr=open(os.devnull, 'wb'))
+            subprocess.check_output(
+                ['docker', '-v'], stderr=open(os.devnull, 'wb'))
         except Exception as e:
-            self.show_default_message('\033[1;31m[FAILED]\033[0;37m', 
-                                      'The docker cli engine is not detected on this machine, ' + 
-                                      'please install the latest docker cli engine.')
+            self.show_default_message(
+                '\033[1;31m[FAILED]\033[0;37m',
+                'The docker cli engine is not detected ' +
+                ' on this machine, please install the latest docker cli engine.')
             return
 
         try:
-            subprocess.check_output(['docker', 
-                                     'network', 
-                                     'create', 
-                                     '--driver=bridge', 
-                                     '--subnet=116.0.0.0/8', 
+            subprocess.check_output(['docker',
+                                     'network',
+                                     'create',
+                                     '--driver=bridge',
+                                     '--subnet=116.0.0.0/8',
                                      'development-network'], stderr=open(os.devnull, 'wb'))
         except Exception as e:
-            self.show_default_message('\033[1;33m[WARNING]\033[0;37m', 
-                                      'The docker metwork development setup already applied.')
+            self.show_default_message(
+                '\033[1;33m[WARNING]\033[0;37m',
+                'The docker metwork development setup already applied.')
             return
 
-        self.show_default_message('\033[1;32m[SUCCESS]\033[0;37m', 
-                                  'The docker network development setup applied.')
+        self.show_default_message(
+            '\033[1;32m[SUCCESS]\033[0;37m', 'The docker network development setup applied.')
 
     def show_default_message(self, status, message):
+
         print(' Network\n\n' +
               ' ' + status + '\n\n' +
               ' ' + message + '\n')
@@ -214,36 +230,45 @@ class Environment():
     host = None
 
     def process(self, args):
+
         try:
-            (options, arguments) = getopt.getopt(args, 'p:h:', ['path=', 'host=', 'help'])
-
-            for (option, argument) in options:
-                if option in ('--help'):
-                    self.show_help_message()
-                    return
-                elif option in ('-p', '--path'):
-                    self.path = argument
-                elif option in ('-h', '--host'):
-                    self.host = argument
-
+            self.process_arguments(args)
         except Exception as a:
             self.show_help_message()
             return
 
         if self.path is None or self.host is None:
-            self.show_default_message('\033[1;33m[WARNING]\033[0;37m', 
-                                      'Required options not provided.')
+            self.show_default_message(
+                '\033[1;33m[WARNING]\033[0;37m', 'Required options not provided.')
             return
 
         path = os.path.join(self.path, '.env')
+
         shutil.copy(os.path.join('boilerplate', '.sample-env'), path)
 
         self.replace_content_env(path)
-        self.show_default_message('\033[1;32m[SUCCESS]\033[0;37m', 'Environment setup applied.')
+
+        self.show_default_message(
+            '\033[1;32m[SUCCESS]\033[0;37m', 'Environment setup applied.')
+
+    def process_arguments(self, args):
+
+        (options, arguments) = getopt.getopt(
+            args, 'p:h:', ['path=', 'host=', 'help'])
+
+        for (option, argument) in options:
+            if option in ('--help'):
+                self.show_help_message()
+                return
+            elif option in ('-p', '--path'):
+                self.path = argument
+            elif option in ('-h', '--host'):
+                self.host = argument
 
     def show_help_message(self):
+
         print (' Environment File Setup\n\n' +
-               ' Usage: ./craftman environment' + 
+               ' Usage: ./craftman environment' +
                ' --path=<service/category/project-name> --host=<host-name>\n\n' +
                ' Options:\n\n' +
                ' --help      Display help.\n' +
@@ -251,20 +276,23 @@ class Environment():
                ' --host      Set Host Name.\n')
 
     def replace_content_env(self, path):
+
         env = open(path, 'r')
         env_content = (env.read().replace('{HOST_NAME}', self.host))
         env.close()
+
         env = open(path, 'w')
         env.write(env_content)
         env.close()
 
     def show_default_message(self, status, text):
-        print (' Environtment File Setup\n\n' + 
-               ' ' + status + '\n\n' 
+
+        print (' Environtment File Setup\n\n' +
+               ' ' + status + '\n\n'
                ' ' + text + '\n')
 
 
-CraftMan(Author(), 
-         Service(), 
-         Network(), 
+CraftMan(Author(),
+         Service(),
+         Network(),
          Environment())
