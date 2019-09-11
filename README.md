@@ -10,6 +10,8 @@ If you want to dockerize your local development, this will be your friend to hel
 
 - Docker version 17.x.x or higher.
 
+- Docker Compose version 1.17.x or higher.
+
 - Python 2.7.x or higher.
 
 ## Install
@@ -46,7 +48,7 @@ If you want to dockerize your local development, this will be your friend to hel
 
 ### Setup Network Development
 
-- To setup the development docker network provided by craftman, use the command below:
+- To setup the development docker network provided by craftman automation script, use the command below:
 
   ```text
   ./craftman network
@@ -94,7 +96,7 @@ If you want to dockerize your local development, this will be your friend to hel
 
 ## Reference Tool(s)
 
-- Network Related: [Subnet Calculator](https://www.calculator.net/ip-subnet-calculator.html?cclass=any&csubnet=8&cip=116.0.0.0&ctype=ipv4&printit=0&x=49&y=21)
+- [Subnet Calculator](https://www.calculator.net/ip-subnet-calculator.html?cclass=any&csubnet=8&cip=116.0.0.0&ctype=ipv4&printit=0&x=49&y=21)
 
 ## License
 
