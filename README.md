@@ -4,7 +4,7 @@ Automation Script and Simple Folder Structure for Docker Compose Service.
 
 ## The Purpose
 
-If you want to dockerize your local development, this will be your friend to help or guide you to do that in a simple way.
+If you want to dockerize your local development and manage it in easier way, this will be your friend to help or guide you to do that in a simple way.
 
 ## Requirement(s)
 
