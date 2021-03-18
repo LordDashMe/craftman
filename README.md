@@ -16,7 +16,9 @@ If you want to dockerize your local development and manage it in easier way, thi
 
 ## Install
 
-- Download the latest release here: [Latest Release of Craftman](https://github.com/LordDashMe/craftman/releases)
+- Download the latest release here: [Latest Release of Craftman](https://github.com/LordDashMe/craftman/archive/0.2.0.zip)
+
+- Check other releases here: [Releases of Craftman](https://github.com/LordDashMe/craftman/releases)
 
 ## Folder Structure
 
