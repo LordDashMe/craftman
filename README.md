@@ -44,9 +44,9 @@ If you want to dockerize your local development and manage it in easier way, thi
 
 ## Usage
 
-- To check the script available functions, use the command ```./craftman help```.
+- To check the script available modules, use the command ```./craftman help```.
 
-- To check the options of a function, use the command ```./craftman [function...] --help```.
+- To check the options of a modules, use the command ```./craftman [module...] --help```.
 
 ### Setup Network Development
 
@@ -72,7 +72,7 @@ If you want to dockerize your local development and manage it in easier way, thi
 
 ### Setup Service
 
-- To setup a service/project, use the function ```./craftman service```.
+- To setup a service/project, use the module ```./craftman service```.
 
   ```text
   ./craftman service --ip=116.0.0.2 --port=16002 --service=mysql-5.6 --category=common
@@ -80,7 +80,7 @@ If you want to dockerize your local development and manage it in easier way, thi
 
 ### Setup Environment File
 
-- To setup an environment or ```.env``` file in the service/project, use the function ```./craftman environment```.
+- To setup an environment or ```.env``` file in the service/project, use the module ```./craftman environment```.
 
   ```text
   ./craftman environment --path=service/common/mysql-5.6/ --host=my-machine-name
@@ -98,7 +98,7 @@ If you want to dockerize your local development and manage it in easier way, thi
 
 ### Check Storage
 
-- To check the last entry in the storage, use the function ```./craftman storage```.
+- To check the last entry in the storage, use the module ```./craftman storage```.
 
 ### Remove Service
 
