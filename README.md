@@ -94,6 +94,14 @@ If you want to dockerize your local development, this will be your friend to hel
 
   - If you want to deeply understand how environment work with the docker compose you can check this reference documentation: [Environment variable in Compose | Docker Documentation](https://docs.docker.com/compose/environment-variables/)
 
+### Check Storage
+
+- To check the last entry in the storage, use the function ```./craftman storage```.
+
+### Remove Service
+
+- To remove service entry, use the module ```./craftman service-delete --ip=<192.168.x.x> --service=<service-name> --category=<category-name>```
+
 ## Reference Tool(s)
 
 - [Subnet Calculator](https://www.calculator.net/ip-subnet-calculator.html?cclass=any&csubnet=8&cip=116.0.0.0&ctype=ipv4&printit=0&x=49&y=21)
