@@ -4,7 +4,7 @@ An automation script that manage your dockerized local development setup.
 
 ## The Purpose
 
-If you want to dockerize your local development and manage it in easier way, this will be your friend to help or guide you to do that in a simple way.
+If you want to dockerize your local development and manage it in an easier way, this will be your friend to help or guide you to do that in a simple way.
 
 ## Requirement(s)
 
